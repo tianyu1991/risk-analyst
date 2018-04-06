@@ -24,3 +24,10 @@ train <- data[1:4000,]
 test <- data[4000:4999,]
 
 model <- glm(booked ~.,family=binomial(link='logit'),data=train)
+
+       
+
+fitted.results <- predict(model,newdata=test,type='response')
+fitted.results <- ifelse(fitted.results > 0.5,1,0)
+misClasificError <- mean(fitted.results != test$booked,na.rm=TRUE)
+print(paste('Accuracy',1-misClasificError))
